@@ -33,7 +33,7 @@ size_t inline ravel_index(std::vector<size_t> unravelled_indices,
  * \param limits: the min/max values.
  */
 template <typename T>
-bool check_limits(std::vector<T> const &data,
+bool inline check_limits(std::vector<T> const &data,
                   std::vector<std::pair<T, T>> limits) {
   bool res = true;
   for (size_t i = 0; i < data.size(); ++i) {

@@ -52,7 +52,7 @@ public:
 private:
   // Number of bins for each dimension.
   std::vector<size_t> m_n_bins;
-  // Number of dimensional for each data value.
+  // Number of dimensions for a single data point.
   size_t m_n_dims_data;
   // Min and max values for each dimension.
   std::vector<std::pair<T, T>> m_limits;
@@ -75,6 +75,7 @@ template <typename T> void Histogram<T>::update(std::vector<T> const &data) {
       index.push_back(Utils::calculate_bin_index(data[dim], m_bin_sizes[dim],
                                                  m_limits[dim].first));
     }
+    m_hist[Utils::ravel_index(index, m_n_bins)] += 1;
   }
 }
 
