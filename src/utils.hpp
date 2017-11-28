@@ -34,7 +34,7 @@ size_t inline ravel_index(std::vector<size_t> unravelled_indices,
  */
 template <typename T>
 bool inline check_limits(std::vector<T> const &data,
-                  std::vector<std::pair<T, T>> limits) {
+                         std::vector<std::pair<T, T>> limits) {
   bool res = true;
   for (size_t i = 0; i < data.size(); ++i) {
     if (data[i] < limits[i].first or data[i] > limits[i].second)
