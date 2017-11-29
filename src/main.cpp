@@ -13,6 +13,7 @@ int main() {
   std::vector<double> data{1.0, 5.0};
   std::vector<double> weights{3.0, 2.0};
   myhist.update(data, weights);
+  myhist.update(data);
   std::vector<double> result = myhist.get_histogram();
   for (auto const &r : result) {
     std::cout << r << " ";

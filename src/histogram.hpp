@@ -80,13 +80,8 @@ Histogram<T>::Histogram(std::vector<size_t> n_bins, size_t n_dims_data,
 template <typename T>
 void Histogram<T>::update(std::vector<T> const &data) {
   if (Utils::check_limits(data, m_limits)) {
-    std::vector<size_t> index;
-    for (size_t dim = 0; dim < m_n_bins.size(); ++dim) {
-      index.push_back(Utils::calculate_bin_index(data[dim], m_bin_sizes[dim],
-                                                 m_limits[dim].first));
-    }
-    size_t flat_index = Utils::ravel_index(index, m_n_bins);
-    m_hist[flat_index] += static_cast<T>(1);
+      std::vector<T> weights(m_n_dims_data, static_cast<T>(1.0));
+      update(data, weights);
   }
 }
 
