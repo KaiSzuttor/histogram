@@ -1,0 +1,6 @@
+enable_testing()
+add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND})
+add_executable(tests test.cpp)
+target_link_libraries(tests hist ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+add_test("histogram_test" tests)
+add_dependencies(check tests)

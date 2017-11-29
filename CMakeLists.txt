@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(histogram)
 set (CMAKE_CXX_STANDARD 11)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+find_package(Boost COMPONENTS unit_test_framework)
 add_subdirectory(src)
+add_subdirectory(test)
+add_subdirectory(example)
