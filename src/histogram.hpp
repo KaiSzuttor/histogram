@@ -9,25 +9,10 @@
 
 namespace Histogram {
 
-/**
- * \brief Calculate the bin sizes.
- * \param limits: containts min/max values for each dimension.
- * \param nbins: number of bins for each dimension.
- * \return The bin sizes for each dimension.
- */
-template <typename T>
-std::vector<T> calc_bin_sizes(std::vector<std::pair<T, T>> const &limits,
-                              std::vector<size_t> const &n_bins) {
-  std::vector<T> tmp;
-  for (size_t ind = 0; ind < limits.size(); ++ind) {
-    tmp.push_back((limits[ind].second - limits[ind].first) / n_bins[ind]);
-  }
-  return tmp;
-}
-
 template <typename T> class Histogram {
 public:
-  explicit Histogram(std::vector<size_t> n_bins, size_t n_dims_data, std::vector<std::pair<T, T> > limits);
+  explicit Histogram(std::vector<size_t> n_bins, size_t n_dims_data,
+                     std::vector<std::pair<T, T>> limits);
   std::vector<size_t> get_n_bins() const;
   std::vector<T> get_histogram() const;
   std::vector<std::pair<T, T>> get_limits() const;
@@ -58,7 +43,7 @@ private:
  */
 template <typename T>
 Histogram<T>::Histogram(std::vector<size_t> n_bins, size_t n_dims_data,
-                   std::vector<std::pair<T, T> > limits)
+                        std::vector<std::pair<T, T>> limits)
     : m_n_bins(n_bins), m_n_dims_data(n_dims_data), m_limits(limits) {
   if (n_bins.size() != limits.size()) {
     throw std::invalid_argument("Argument for number of bins and limits do "
@@ -77,11 +62,10 @@ Histogram<T>::Histogram(std::vector<size_t> n_bins, size_t n_dims_data,
  *              The size of the given vector has to match the number
  *              of dimensions of the histogram.
  */
-template <typename T>
-void Histogram<T>::update(std::vector<T> const &data) {
+template <typename T> void Histogram<T>::update(std::vector<T> const &data) {
   if (Utils::check_limits(data, m_limits)) {
-      std::vector<T> weights(m_n_dims_data, static_cast<T>(1.0));
-      update(data, weights);
+    std::vector<T> weights(m_n_dims_data, static_cast<T>(1.0));
+    update(data, weights);
   }
 }
 
@@ -137,6 +121,22 @@ std::vector<std::pair<T, T>> Histogram<T>::get_limits() const {
  */
 template <typename T> std::vector<T> Histogram<T>::get_histogram() const {
   return m_hist;
+}
+
+/**
+ * \brief Calculate the bin sizes.
+ * \param limits: containts min/max values for each dimension.
+ * \param nbins: number of bins for each dimension.
+ * \return The bin sizes for each dimension.
+ */
+template <typename T>
+std::vector<T> calc_bin_sizes(std::vector<std::pair<T, T>> const &limits,
+                              std::vector<size_t> const &n_bins) {
+  std::vector<T> tmp;
+  for (size_t ind = 0; ind < limits.size(); ++ind) {
+    tmp.push_back((limits[ind].second - limits[ind].first) / n_bins[ind]);
+  }
+  return tmp;
 }
 
 } // namespace Histogram
