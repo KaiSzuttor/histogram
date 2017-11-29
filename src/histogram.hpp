@@ -1,6 +1,7 @@
 #ifndef _SRC_HISTOGRAM_HPP
 #define _SRC_HISTOGRAM_HPP
 
+#include <algorithm>
 #include <functional>
 #include <numeric>
 #include <vector>
@@ -35,8 +36,10 @@ public:
   std::vector<T> get_bin_sizes() const;
   void update(std::vector<T> const &data);
   void update(std::vector<T> const &data, std::vector<T> const &weights);
+  void normalize();
 
 private:
+  virtual void do_normalize();
   // Number of bins for each dimension.
   std::vector<size_t> m_n_bins;
   // Number of dimensions for a single data point.
@@ -137,6 +140,22 @@ std::vector<std::pair<T, T>> Histogram<T>::get_limits() const {
  */
 template <typename T> std::vector<T> Histogram<T>::get_histogram() const {
   return m_hist;
+}
+
+/**
+ * \brief Histogram normalization. (private member function can be overridden by
+ * subclasses).
+ */
+template <typename T> void Histogram<T>::normalize() { do_normalize(); }
+
+/**
+ * \brief Histogram normalization.
+ */
+template <typename T> void Histogram<T>::do_normalize() {
+  T tot_count =
+      std::accumulate(m_hist.begin(), m_hist.end(), static_cast<T>(0.0));
+  std::transform(m_hist.begin(), m_hist.end(), m_hist.begin(),
+                 [tot_count](T v) { return v / tot_count; });
 }
 
 } // namespace Histogram
