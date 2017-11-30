@@ -39,7 +39,6 @@ public:
   void normalize();
 
 private:
-  virtual void do_normalize();
   // Number of bins for each dimension.
   std::vector<size_t> m_n_bins;
   // Number of dimensions for a single data point.
@@ -48,6 +47,9 @@ private:
   std::vector<std::pair<T, T>> m_limits;
   // Bin sizes for each dimension.
   std::vector<T> m_bin_sizes;
+  virtual void do_normalize();
+
+protected:
   // Flat histogram data.
   std::vector<T> m_hist;
 };
